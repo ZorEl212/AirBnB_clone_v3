@@ -72,6 +72,8 @@ class DBStorage:
         self.__session = Session
 
     def count(self, cls=None):
+        """Get count of objects of given class or all objects in db if 
+            Class is not provided"""
         count = 0
         if cls in classes.values() or cls in classes.keys():
             objs = self.__session.query(eval(cls)
@@ -84,6 +86,7 @@ class DBStorage:
         return count
 
     def get(self, cls, id):
+        """Get an object by id and class from the database"""
         objs = None
         if cls in classes.values() or cls in classes.keys():
             objs = self.__session.query(
