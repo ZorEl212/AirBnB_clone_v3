@@ -2,12 +2,8 @@
 """Index page of the web app"""
 
 from flask import jsonify
-from api.v1.views import app_views
+from api.v1.views import app_views, classes
 from models import storage
-
-
-classes = {'states': 'State', 'cities': 'City', 'users': 'User',
-           'places': 'Place', 'reviews': 'Review', 'amenities': 'Amenity'}
 
 
 @app_views.route("/status", strict_slashes=False)
