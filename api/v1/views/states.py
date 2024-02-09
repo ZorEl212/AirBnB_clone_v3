@@ -41,3 +41,16 @@ def create_state():
     storage.new(new_state)
     storage.save()
     return new_state.to_dict()
+
+@app_views.route("/states/<state_id>", strict_slashes=False, methods=['PUT'])
+def update_state(state_id):
+    if not request.is_json:
+        abort(400, "Not JSON")
+    data = request.get_json()
+    state = storage.get(classes['states'], state_id)
+    bad_keys = ['id', 'created_at', 'updated_at']
+    for key, value in data.items():
+        if key not in bad_keys and state is not None:
+            setattr(state, key, value)
+    storage.save()
+    return state.to_dict() if state else abort(404)
