@@ -3,7 +3,7 @@
 
 from models import storage
 from api.v1.views import app_views, classes
-from flask import abort
+from flask import abort, jsonify
 
 
 @app_views.route("/states", strict_slashes=False, methods=['GET'])
@@ -19,3 +19,11 @@ def states():
 def get_state(state_id):
     state = storage.get(classes['states'], state_id)
     return state.to_dict() if state else abort(404)
+
+
+@app_views.route("states/<state_id>", strict_slashes=False, methods=["DELETE"])
+def del_state(state_id):
+    state = storage.get(classes.get('states'), state_id)
+    storage.delete(state)
+    storage.save()
+    return jsonify({}) if state else abort(404)
