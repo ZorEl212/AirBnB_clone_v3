@@ -13,4 +13,4 @@ classes = {'states': State, 'cities': City, 'users': User,
            'places': Place, 'reviews': Review, 'amenities': Amenity}
 
 from api.v1.views.index import *
-from api.v1.views.state import *
+from api.v1.views.states import *
