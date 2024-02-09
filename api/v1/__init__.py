@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from os import getenv
 
 HBNB_API_HOST = getenv("HBNB_API_HOST")
