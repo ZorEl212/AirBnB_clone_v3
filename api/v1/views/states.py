@@ -26,7 +26,7 @@ def del_state(state_id):
     state = storage.get(classes.get('states'), state_id)
     storage.delete(state)
     storage.save()
-    return jsonify({}) if state else abort(404)
+    return make_response(jsonify({}), 200) if state else abort(404)
 
 @app_views.route("/states", strict_slashes=False, methods=['POST'])
 def create_state():
