@@ -3,7 +3,7 @@
 
 from models import storage
 from api.v1.views import app_views, classes
-from flask import abort, jsonify, request
+from flask import abort, jsonify, request, make_response
 
 
 
@@ -13,13 +13,13 @@ def states():
     states = storage.all(classes['states'])
     for state in states.values():
         statesList.append(state.to_dict())
-    return statesList
+    return jsonify(statesList)
 
 
 @app_views.route("/states/<state_id>", strict_slashes=False, methods=['GET'])
 def get_state(state_id):
     state = storage.get(classes['states'], state_id)
-    return state.to_dict() if state else abort(404)
+    return jsonify(state.to_dict()) if state else abort(404)
 
 
 @app_views.route("states/<state_id>", strict_slashes=False, methods=["DELETE"])
@@ -40,7 +40,7 @@ def create_state():
     new_state.name = data['name']
     storage.new(new_state)
     storage.save()
-    return new_state.to_dict()
+    return make_response(jsonify(new_state.to_dict()), 201)
 
 @app_views.route("/states/<state_id>", strict_slashes=False, methods=['PUT'])
 def update_state(state_id):
@@ -53,4 +53,4 @@ def update_state(state_id):
         if key not in bad_keys and state is not None:
             setattr(state, key, value)
     storage.save()
-    return state.to_dict() if state else abort(404)
+    return jsonify(state.to_dict()) if state else abort(404)
