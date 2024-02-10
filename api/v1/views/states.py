@@ -6,7 +6,6 @@ from api.v1.views import app_views, classes
 from flask import abort, jsonify, request, make_response
 
 
-
 @app_views.route("/states", strict_slashes=False, methods=['GET'])
 def states():
     statesList = []
@@ -53,4 +52,4 @@ def update_state(state_id):
         if key not in bad_keys and state is not None:
             setattr(state, key, value)
     storage.save()
-    return jsonify(state.to_dict()) if state else abort(404)
+    return make_response(jsonify(state.to_dict()), 200) if state else abort(404)
